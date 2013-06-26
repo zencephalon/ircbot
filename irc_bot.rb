@@ -1,20 +1,22 @@
 require 'cinch'
-load "aliza.rb"
+require 'cleverbot-api'
 
 bot = Cinch::Bot.new do
   configure do |c|
     c.server = "irc.freenode.org"
-    c.nick = "ALIZA"
+    c.nick = "aLiZa"
     c.channels = ["#hackny"]
   end
 
   on :connect do |m|
-      ALIZA = Aliza.new(m.bot.nick)
+      ALIZA = CleverBot.new
   end
 
   on :message, /.*/ do |m|
-      response = ALIZA.hear(m.user.nick, m.message) 
-      m.reply response unless response.nil?
+      if m.message.match(m.bot.nick)
+          response = ALIZA.think(m.message)
+          m.reply "#{m.user.nick}: " + response unless response.nil?
+      end
   end
 end
 
