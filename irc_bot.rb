@@ -13,8 +13,9 @@ bot = Cinch::Bot.new do
   end
 
   on :message, /.*/ do |m|
-      if m.message.match(m.bot.nick)
-          response = ALIZA.think(m.message)
+      if m.message.match(/^#{m.bot.nick}:/)
+          msg = m.message.gsub(/^#{m.bot.nick}:/, '')
+          response = ALIZA.think(msg)
           m.reply "#{m.user.nick}: " + response unless response.nil?
       end
   end
