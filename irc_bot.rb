@@ -10,6 +10,11 @@ bot = Cinch::Bot.new do
 
   on :connect do |m|
       ALIZA = CleverBot.new
+      QUOTES = File.open('quotes.txt').readlines
+  end
+
+  on :message, /encourage/ do |m|
+      m.reply "#{m.user.nick}: " + QUOTES.sample(1).first
   end
 
   on :message, /.*/ do |m|
