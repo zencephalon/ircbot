@@ -9,11 +9,13 @@ bot = Cinch::Bot.new do
   end
 
   on :connect do |m|
-      m.reply "Hello, I am Charliebot."
+      QUOTES = File.open('perks_quotes.txt').readlines
   end
 
   on :message, /.*/ do |m|
-      m.reply "I am both happy and sad at the same time, and I'm still trying to figure out how that could be."
+      if m.message.match(/^#{m.bot.nick}:/)
+          m.reply "#{m.user.nick}: " + QUOTES.sample(1).first
+      end
   end
 end
 
